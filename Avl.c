@@ -221,5 +221,6 @@ int main() {
 
     const char* keyToDelete = "date";
     root = deleteNode(root, keyToDelete);
+    
     return 0;
 }
