@@ -211,7 +211,7 @@ int main() {
     root = insertNode(root, "dog", "cachorro");
     root = insertNode(root, "cat", "gato");
     printf("Digite a palabva a ser traduzida.\n");
-    const char* key;
+    char key[51];
     scanf("%s",key);
     struct Node* foundNode = searchNode(root, key);
     if (foundNode != NULL)
