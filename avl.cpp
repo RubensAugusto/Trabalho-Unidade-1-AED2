@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "word.hpp"
+
 /* 
 Peguei uma base de avl e comecei a implementar baseado na ideia do dicionário. 
 Ainda faltam algumas coisas como um menu de operações, e criar a base de dados.
@@ -10,11 +12,10 @@ Usei avl por que funcionou bem, vou tentar com red-black mas achei essa versão 
 
 // Definindo a estrutura para um nó da árvore AVL
 struct Node {
-    char key[51];
-    char traducao[51];
+    Word *data;
+    int height;
     struct Node* left;
     struct Node* right;
-    int height;
 };
 
 // Função para obter a altura de um nó
@@ -25,18 +26,19 @@ int getHeight(struct Node* node) {
 
 // Função para obter o máximo entre dois números
 int max(int a, int b) {
-    if (a > b)return a;
+    if (a > b) return a;
     else return b;
 }
 
 // Função para criar um novo nó da árvore AVL
-struct Node* createNode(const char* key, const char* traducao) {
+struct Node* createNode(Word *w) {
     struct Node* node = (struct Node*) malloc(sizeof(struct Node));
-    strncpy(node->key, key, 50);
-    strncpy(node->traducao, traducao, 50);
-    node->left = NULL;
-    node->right = NULL;
-    node->height = 1;
+    if (node != NULL) {
+        node->data = w;
+        node->left = NULL;
+        node->right = NULL;
+        node->height = 1;
+    }
     return node;
 }
 
@@ -76,15 +78,15 @@ int getBalance(struct Node* node) {
 }
 
 // Função para inserir um novo nó na árvore AVL
-struct Node* insertNode(struct Node* node, const char* key, const char* traducao) {
+struct Node* insertNode(struct Node *node, Word *w) {
     if (node == NULL)
-        return createNode(key, traducao);
+        return createNode(w);
 
-    int compareResult = strcmp(key, node->key);
+    int compareResult = strcmp(w->world.c_str(), node->data->world.c_str());
     if (compareResult < 0)
-        node->left = insertNode(node->left, key, traducao);
+        node->left = insertNode(node->left, w);
     else if (compareResult > 0)
-        node->right = insertNode(node->right, key, traducao);
+        node->right = insertNode(node->right, w);
     else
         return node;
 
@@ -93,21 +95,21 @@ struct Node* insertNode(struct Node* node, const char* key, const char* traducao
     int balance = getBalance(node);
 
     // Caso de rotação à esquerda esquerda
-    if (balance > 1 && strcmp(key, node->left->key) < 0)
+    if (balance > 1 && strcmp(w->world.c_str(), node->data->world.c_str()) < 0)
         return rotateRight(node);
 
     // Caso de rotação à direita direita
-    if (balance < -1 && strcmp(key, node->right->key) > 0)
+    if (balance < -1 && strcmp(w->world.c_str(), node->data->world.c_str()) > 0)
         return rotateLeft(node);
 
     // Caso de rotação à esquerda direita
-    if (balance > 1 && strcmp(key, node->left->key) > 0) {
+    if (balance > 1 && strcmp(w->world.c_str(), node->data->world.c_str()) > 0) {
         node->left = rotateLeft(node->left);
         return rotateRight(node);
     }
 
     // Caso de rotação à direita esquerda
-    if (balance < -1 && strcmp(key, node->right->key) < 0) {
+    if (balance < -1 && strcmp(w->world.c_str(), node->data->world.c_str()) < 0) {
         node->right = rotateRight(node->right);
         return rotateLeft(node);
     }
@@ -115,17 +117,16 @@ struct Node* insertNode(struct Node* node, const char* key, const char* traducao
     return node;
 }
 
-
 // Função para buscar um nó na árvore AVL
-struct Node* searchNode(struct Node* node, const char* key) {
-    if (node == NULL || strcmp(node->key, key) == 0)
+struct Node* searchNode(struct Node* node, Word *w) {
+    if (node == NULL || strcmp(w->world.c_str(), node->data->world.c_str()) == 0)
         return node;
 
-    int compareResult = strcmp(key, node->key);
+    int compareResult = strcmp(w->world.c_str(), node->data->world.c_str());
     if (compareResult < 0)
-        return searchNode(node->left, key);
+        return searchNode(node->left, w);
 
-    return searchNode(node->right, key);
+    return searchNode(node->right, w);
 }
 
 // Função para encontrar o nó com o valor mínimo (mais à esquerda) em uma árvore AVL
@@ -137,15 +138,15 @@ struct Node* findMinNode(struct Node* node) {
 }
 
 // Função para deletar um nó na árvore AVL
-struct Node* deleteNode(struct Node* root, const char* key) {
+struct Node* deleteNode(struct Node* root, Word *w) {
     if (root == NULL)
         return root;
 
-    int compareResult = strcmp(key, root->key);
+    int compareResult = strcmp(w->world.c_str(), root->data->world.c_str());
     if (compareResult < 0)
-        root->left = deleteNode(root->left, key);
+        root->left = deleteNode(root->left, w);
     else if (compareResult > 0)
-        root->right = deleteNode(root->right, key);
+        root->right = deleteNode(root->right, w);
     else {
         if (root->left == NULL || root->right == NULL) {
             struct Node* temp = root->left ? root->left : root->right;
@@ -159,9 +160,8 @@ struct Node* deleteNode(struct Node* root, const char* key) {
             free(temp);
         } else {
             struct Node* temp = findMinNode(root->right);
-            strncpy(root->key, temp->key, 50);
-            strncpy(root->traducao, temp->traducao, 50);
-            root->right = deleteNode(root->right, temp->key);
+            temp->data = w;
+            root->right = deleteNode(root->right, w);
         }
     }
 
@@ -195,36 +195,25 @@ struct Node* deleteNode(struct Node* root, const char* key) {
     return root;
 }
 
+void print_inorder(struct Node *root) {
+    if (root != NULL) {
+        print_inorder(root->left);
+        cout << root->data->world << " ";
+        print_inorder(root->right);
+    }
+}
+
 // Função principal
 int main() {
     struct Node* root = NULL;
 
-    root = insertNode(root, "apple", "apple");
-    root = insertNode(root, "banana", "banana");
-    root = insertNode(root, "cherry", "cereja");
-    root = insertNode(root, "date", "tamara");
-    root = insertNode(root, "grape", "uva");
-    root = insertNode(root, "fig", "figo");
-    root = insertNode(root, "kiwi", "kiwi");
-    root = insertNode(root, "horse", "cavalo");
-    root = insertNode(root, "duck", "pato");
-    root = insertNode(root, "dog", "cachorro");
-    root = insertNode(root, "cat", "gato");
+    Word p{"Palavra", "Significado", "exemplos"};
+    Word p1{"Palavra1", "Significado1", "exemplos1"};
 
-    printf("Digite a palabva a ser traduzida.\n");
-    
-    char key[51];
-    scanf("%s",key);
-    
-    struct Node* foundNode = searchNode(root, key);
+    root = insertNode(root, &p);
+    root = insertNode(root, &p1);
 
-    if (foundNode != NULL)
-        printf("Traducao de: %s - %s\n", foundNode->key, foundNode->traducao);
-    else
-        printf("No com chave %s nao encontrado na arvore.\n", key);
-
-    const char* keyToDelete = "date";
-    root = deleteNode(root, keyToDelete);
+    print_inorder(root);
 
     return 0;
 }
