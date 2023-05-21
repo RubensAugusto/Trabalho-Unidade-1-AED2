@@ -2,21 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "word.hpp"
+#include "avl.hpp"
 
 /* 
 Peguei uma base de avl e comecei a implementar baseado na ideia do dicionário. 
 Ainda faltam algumas coisas como um menu de operações, e criar a base de dados.
 Usei avl por que funcionou bem, vou tentar com red-black mas achei essa versão daqui boa.
 */
-
-// Definindo a estrutura para um nó da árvore AVL
-struct Node {
-    Word *data;
-    int height;
-    struct Node* left;
-    struct Node* right;
-};
 
 // Função para obter a altura de um nó
 int getHeight(struct Node* node) {
@@ -95,21 +87,21 @@ struct Node* insertNode(struct Node *node, Word *w) {
     int balance = getBalance(node);
 
     // Caso de rotação à esquerda esquerda
-    if (balance > 1 && strcmp(w->world.c_str(), node->data->world.c_str()) < 0)
+    if (balance > 1 && compareResult < 0)
         return rotateRight(node);
 
     // Caso de rotação à direita direita
-    if (balance < -1 && strcmp(w->world.c_str(), node->data->world.c_str()) > 0)
+    if (balance < -1 && compareResult > 0)
         return rotateLeft(node);
 
     // Caso de rotação à esquerda direita
-    if (balance > 1 && strcmp(w->world.c_str(), node->data->world.c_str()) > 0) {
+    if (balance > 1 && compareResult > 0) {
         node->left = rotateLeft(node->left);
         return rotateRight(node);
     }
 
     // Caso de rotação à direita esquerda
-    if (balance < -1 && strcmp(w->world.c_str(), node->data->world.c_str()) < 0) {
+    if (balance < -1 && compareResult < 0) {
         node->right = rotateRight(node->right);
         return rotateLeft(node);
     }
@@ -118,11 +110,11 @@ struct Node* insertNode(struct Node *node, Word *w) {
 }
 
 // Função para buscar um nó na árvore AVL
-struct Node* searchNode(struct Node* node, Word *w) {
-    if (node == NULL || strcmp(w->world.c_str(), node->data->world.c_str()) == 0)
+struct Node* searchNode(struct Node* node, string w) {
+    if (node == NULL || strcmp(w.c_str(), node->data->world.c_str()) == 0)
         return node;
 
-    int compareResult = strcmp(w->world.c_str(), node->data->world.c_str());
+    int compareResult = strcmp(w.c_str(), node->data->world.c_str());
     if (compareResult < 0)
         return searchNode(node->left, w);
 
@@ -198,22 +190,7 @@ struct Node* deleteNode(struct Node* root, Word *w) {
 void print_inorder(struct Node *root) {
     if (root != NULL) {
         print_inorder(root->left);
-        cout << root->data->world << " ";
+        cout << root->data->world << endl;
         print_inorder(root->right);
     }
-}
-
-// Função principal
-int main() {
-    struct Node* root = NULL;
-
-    Word p{"Palavra", "Significado", "exemplos"};
-    Word p1{"Palavra1", "Significado1", "exemplos1"};
-
-    root = insertNode(root, &p);
-    root = insertNode(root, &p1);
-
-    print_inorder(root);
-
-    return 0;
 }
