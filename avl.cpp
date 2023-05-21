@@ -4,8 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <vector>
 #include <chrono>
+#include <queue>
+#include <vector>
 
 #include "avl.hpp"
 
@@ -236,10 +237,52 @@ void print_word(struct Node *n) {
 
 }
 
+void print_preorder(struct Node *root) {
+    if (root != NULL) {
+        cout << root->data->word << endl;
+        print_preorder(root->left);
+        print_preorder(root->right);
+    }
+}
+
 void print_inorder(struct Node *root) {
     if (root != NULL) {
         print_inorder(root->left);
         cout << root->data->word << endl;
         print_inorder(root->right);
     }
+}
+
+void print_postorder(struct Node *root) {
+    if (root != NULL) {
+        print_postorder(root->left);
+        print_postorder(root->right);
+        cout << root->data->word << endl;
+    }
+}
+
+void print_bfs(struct Node *root) {
+    queue<struct Node*> q;
+
+    auto temp = root;
+
+    do {
+
+        cout << temp->data->word << endl;
+        if (temp->left != nullptr) {
+            q.push(temp->left);
+        }
+
+        if (temp->right != nullptr) {
+            q.push(temp->right);
+        }
+
+        if (q.empty()) {
+            break;
+        }
+
+        temp = q.front();
+        q.pop();
+
+    } while(1);
 }

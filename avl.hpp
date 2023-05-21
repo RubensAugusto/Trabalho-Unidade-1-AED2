@@ -51,3 +51,9 @@ void print_inorder(struct Node *root);
 struct Node* read_csv(const string& nome_arquivo);
 
 void print_word(struct Node *n);
+
+void print_preorder(struct Node *root);
+
+void print_postorder(struct Node *root);
+
+void print_bfs(struct Node *root);

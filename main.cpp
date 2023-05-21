@@ -13,7 +13,7 @@ int main() {
     string csv = "words-meaning-final.csv";
     root = read_csv(csv);
 
-    menu();
+    // menu();
 }
 
 void menu() {
