@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <chrono>
 
 #include "avl.hpp"
 
@@ -74,7 +79,7 @@ struct Node* insertNode(struct Node *node, Word *w) {
     if (node == NULL)
         return createNode(w);
 
-    int compareResult = strcmp(w->world.c_str(), node->data->world.c_str());
+    int compareResult = strcmp(w->word.c_str(), node->data->word.c_str());
     if (compareResult < 0)
         node->left = insertNode(node->left, w);
     else if (compareResult > 0)
@@ -111,10 +116,10 @@ struct Node* insertNode(struct Node *node, Word *w) {
 
 // Função para buscar um nó na árvore AVL
 struct Node* searchNode(struct Node* node, string w) {
-    if (node == NULL || strcmp(w.c_str(), node->data->world.c_str()) == 0)
+    if (node == NULL || strcmp(w.c_str(), node->data->word.c_str()) == 0)
         return node;
 
-    int compareResult = strcmp(w.c_str(), node->data->world.c_str());
+    int compareResult = strcmp(w.c_str(), node->data->word.c_str());
     if (compareResult < 0)
         return searchNode(node->left, w);
 
@@ -134,7 +139,7 @@ struct Node* deleteNode(struct Node* root, Word *w) {
     if (root == NULL)
         return root;
 
-    int compareResult = strcmp(w->world.c_str(), root->data->world.c_str());
+    int compareResult = strcmp(w->word.c_str(), root->data->word.c_str());
     if (compareResult < 0)
         root->left = deleteNode(root->left, w);
     else if (compareResult > 0)
@@ -187,10 +192,52 @@ struct Node* deleteNode(struct Node* root, Word *w) {
     return root;
 }
 
+
+struct Node* read_csv(const string& nome_arquivo) {
+
+    struct Node * root = nullptr;
+
+    ifstream arquivo(nome_arquivo);
+    if (!arquivo.is_open()) {
+        cout << "Erro ao abrir o arquivo." << endl;
+        return nullptr;
+    }
+
+    string linha;
+    getline(arquivo, linha); // Ignorar a primeira linha do csv
+
+    string word, meaning, example;
+    while (getline(arquivo, linha)) {
+        stringstream ss(linha);
+        
+        getline(ss, word, ',');
+        getline(ss, meaning, ',');
+        getline(ss, example);
+
+        Word w{word, meaning, example};
+
+        root = insertNode(root, new Word(w));
+    }
+
+    arquivo.close();
+
+    return root;
+}
+
+void print_word(struct Node *n) {
+    Word *w = n->data;
+
+    cout << "Word: " << w->word << endl;
+    cout << "Meaning: " << w->meaning << endl;
+    cout << "Example: " << w->example << endl;
+    cout << endl;
+
+}
+
 void print_inorder(struct Node *root) {
     if (root != NULL) {
         print_inorder(root->left);
-        cout << root->data->world << endl;
+        cout << root->data->word << endl;
         print_inorder(root->right);
     }
 }

@@ -1,5 +1,5 @@
 build:
-	g++ avl.cpp -o test
+	g++ main.cpp avl.cpp -o main
 
-test: build
-	./test
+run: build
+	./main

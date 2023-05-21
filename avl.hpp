@@ -3,7 +3,7 @@
 using namespace std;
 
 struct Word {
-    string world;
+    string word;
     string meaning;
     string example;
 };
@@ -47,3 +47,7 @@ struct Node* findMinNode(struct Node* node);
 struct Node* deleteNode(struct Node* root, Word *w);
 
 void print_inorder(struct Node *root);
+
+struct Node* read_csv(const string& nome_arquivo);
+
+void print_word(struct Node *n);
