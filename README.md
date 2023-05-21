@@ -11,7 +11,7 @@ Integrantes:
 
 ## Instruções
 
-> ** **
->
-> ** **
+> **ÁRVORE RUBRO-NEGRA(RED-BLACK):    gcc -Wall RB.c  -o rb**
+> 
+> **ÁRVORE AVL:**
 
