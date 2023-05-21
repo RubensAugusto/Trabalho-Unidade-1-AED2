@@ -195,6 +195,76 @@ struct Node* deleteNode(struct Node* root, const char* key) {
     return root;
 }
 
+void printpre(struct Node *root){
+    if(root != NULL){
+        printf("%s\n",root->key);
+        printpre(root->left);
+        printpre(root->right);
+    }
+}
+
+void printin(struct Node *root){
+    if(root != NULL){
+        printpre(root->left);
+        printf("%s\n",root->key);
+        printpre(root->right);
+    }
+}
+
+void printpos(struct Node *root){
+    if(root != NULL){
+        printpre(root->left);
+        printpre(root->right);
+        printf("%s\n",root->key);
+    }
+}
+
+/*void menu(struct Node* root){  
+    int opcao;  
+    char str[51];
+
+    while(1){
+        printf("\nEscolha a opcao:\n0-encerrar o programa\n1-inserir\n2-busca\n3-deletar no\n4-printar a arvore\n");
+        scanf("%d",&opcao);
+        if(opcao == 0)return;
+        switch (opcao)
+        {
+        case 0:
+            break;
+        case 1:
+            printf("\nInsira uma palavra e seu significado\n");
+            // adicionar funcão de leitura
+            break;
+        case 2:
+            str[0] = '\0';
+            printf("\nChave a ser buscada\n");
+            scanf("%s",str);
+            struct Node* busca = searchNode(root,str);
+            if (searchNode != NULL)
+            printf("\nsignificado de: %s = %s", busca->key, busca->traducao);
+            else printf("\nNo com chave %s nao encontrado na arvore.", str);
+            break;
+        case 3:
+            str[0] = '\0';
+            printf("\nChave a ser deletada:\n");
+            scanf("%s",str);
+            root = deleteNode(root, str);
+            break;
+        case 4:
+            printf("\nQual formatacao de saida e desejada?\n");
+            printf("1-preorder\n2-inorder\n3-posorder");
+            int m;
+            scanf("%d",&m);
+            if(m == 1)printpre(root);
+            if(m == 2)printin(root);
+            if(m==3)printpos(root);
+            else printf("\nValor nao disponivel nas opcoes\n");
+            break;
+        }
+    }
+}
+*/
+
 // Função principal
 int main() {
     struct Node* root = NULL;
