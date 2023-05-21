@@ -2,6 +2,8 @@
 
 using namespace std;
 
+extern struct Node *root;
+
 struct Word {
     string word;
     string meaning;
