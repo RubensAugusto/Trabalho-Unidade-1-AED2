@@ -256,13 +256,13 @@ int main() {
         memset(meaning, 0, 501);
     }
 
-    printf("Buscar palavra: ");
+    printf("Buscar palavra: (Por favor colocar a primeira letra maiuscula)\n> ");
 
     scanf("%s",key);    
     struct NO* foundNode = search_NO(Arv, key); //Busca key == word
     
     if(foundNode != NULL) {
-        printf("\nPalavra: %s - Significado:\n %s\n\n", foundNode->key, foundNode->meaning);
+        printf("\nPalavra: < %s > - Significado:\n %s\n\n", foundNode->key, foundNode->meaning);
 
     }else{
         printf("\nPalavra: (%s) nao encontrada na arvore :(\n\n", key);
