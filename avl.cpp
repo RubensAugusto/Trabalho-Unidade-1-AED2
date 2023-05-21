@@ -140,6 +140,7 @@ struct Node* deleteNode(struct Node* root, Word *w) {
         return root;
 
     int compareResult = strcmp(w->word.c_str(), root->data->word.c_str());
+
     if (compareResult < 0)
         root->left = deleteNode(root->left, w);
     else if (compareResult > 0)
@@ -155,10 +156,11 @@ struct Node* deleteNode(struct Node* root, Word *w) {
                 *root = *temp;
 
             free(temp);
+            
         } else {
             struct Node* temp = findMinNode(root->right);
-            temp->data = w;
-            root->right = deleteNode(root->right, w);
+            root->data->word = temp->data->word;
+            root->right = deleteNode(root->right, temp->data);
         }
     }
 

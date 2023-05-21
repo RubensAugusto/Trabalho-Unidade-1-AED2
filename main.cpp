@@ -13,13 +13,7 @@ int main() {
     string csv = "words-meaning-final.csv";
     root = read_csv(csv);
 
-    Word w{"Zigzag", "to move very quickly", "The cars began to zoom around the racetrack; moving faster and faster with each lap."};
-
-    root = deleteNode(root, &w);
-
-    print_inorder(root);
-
-    // menu();
+    menu();
 }
 
 void menu() {
@@ -116,9 +110,12 @@ void deletar_palavra() {
 
     root = deleteNode(root, n->data);
 
-    print_inorder(root);
+    struct Node *check = searchNode(root, palavra);
 
-    // struct Node *check = searchNode(root, palavra);
+    if (check == nullptr) {
+        cout << "Palavra deletada com sucesso!" << endl;
+    } else {
+        cout << "Palavra não deletada" << endl;
+    }
 
-    // cout << check->data->word << endl;
 }
