@@ -39,32 +39,64 @@ struct Node* createNode(Word *w) {
     return node;
 }
 
-// Função para realizar uma rotação simples à direita
-struct Node* rotateRight(struct Node* z) {
-    struct Node* y = z->left;
-    struct Node* T3 = y->right;
+/*
+A rotação a direita é feita quando há um desbalanceamento no nó da esquerda, ou seja uma diferença de altura.
+struct Node * desbalanceado é o nó desbalanceado
+struct Node *new se tornará o novo nó no lugar de 'desbalanceado'
+struct Node *Temp é um auxiliar para a rotação, armazenando os dadso a direieta de 'new'.
 
-    y->right = z;
-    z->left = T3;
+O nó new recebe 'desbalanceado'como seu filho a direita, em seguida o filho a esquerda de 
+'desbalanceado' recebe o nó auxiliar(agora o filho a esquerda do nó inicialmente desbalanceado).
 
-    z->height = max(getHeight(z->left), getHeight(z->right)) + 1;
-    y->height = max(getHeight(y->left), getHeight(y->right)) + 1;
+Em resumo, new se torna a subarvore a esquerda do nó desbalanceado, e vai para sua posição, enquanto temp
+armazena a sub arvore da direita de new. New recebe o nó desbalanceado como sua subarvore da direita.
+A antiga subarvore da direita é inserida como subarvore da direta do nó desbalanceado, a partir do auxiliar 'Temp'.
 
-    return y;
+Feita a rotação, as alturas são atualizadas, e o nó new retorna na posição que o desbalanceado ocupava.
+A subarvore New é retornada na posição que Desbalanceado ocupava.
+*/
+struct Node* rotateRight(struct Node* desbalanceado) {
+    struct Node* new = desbalanceado->left;
+    struct Node* Temp = new->right;
+
+    new->right = desbalanceado;
+    desbalanceado->left = Temp;
+
+    desbalanceado->height = max(getHeight(desbalanceado->left), getHeight(desbalanceado->right)) + 1;
+    new->height = max(getHeight(new->left), getHeight(new->right)) + 1;
+
+    return new;
 }
 
-// Função para realizar uma rotação simples à esquerda
-struct Node* rotateLeft(struct Node* z) {
-    struct Node* y = z->right;
-    struct Node* T2 = y->left;
+/*
+Funciona de forma similar a rotação a direita, porém, com os lados invertidos.
 
-    y->left = z;
-    z->right = T2;
+A rotação a esquerda é feita quando há um desbalanceamento no nó da direita, ou seja uma diferença de altura.
+struct Node * desbalanceado é o nó desbalanceado
+struct Node *new se tornará o novo nó no lugar de 'desbalanceado'
+struct Node *Temp é um auxiliar para a rotação, armazenando os dadso a esquerda de 'new'.
 
-    z->height = max(getHeight(z->left), getHeight(z->right)) + 1;
-    y->height = max(getHeight(y->left), getHeight(y->right)) + 1;
+O nó new recebe 'desbalanceado'como seu filho a esquerda, em seguida o filho a direita de 
+'desbalanceado' recebe o nó auxiliar(agora o filho a direita do nó inicialmente desbalanceado).
 
-    return y;
+Em resumo, new se torna a subarvore a direita do nó desbalanceado, e vai para sua posição, enquanto temp
+armazena a sub arvore da esquerda de new. New recebe o nó desbalanceado como sua subarvore da esquerda.
+A antiga subarvore da esquerda é inserida como subarvore da direta do nó desbalanceado, a partir do auxiliar 'Temp'.
+
+Feita a rotação, as alturas são atualizadas, e o nó new retorna na posição que o desbalanceado ocupava.
+A subarvore New é retornada na posição que Desbalanceado ocupava.
+*/
+struct Node* rotateLeft(struct Node* desbalanceado) {
+    struct Node* new = desbalanceado->right;
+    struct Node* T2 = new->left;
+
+    new->left = desbalanceado;
+    desbalanceado->right = T2;
+
+    desbalanceado->height = max(getHeight(desbalanceado->left), getHeight(desbalanceado->right)) + 1;
+    new->height = max(getHeight(new->left), getHeight(new->right)) + 1;
+
+    return new;
 }
 
 // Função para obter o fator de balanceamento de um nó
