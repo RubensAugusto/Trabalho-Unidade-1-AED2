@@ -219,21 +219,31 @@ void printpos(struct Node *root){
     }
 }
 
-/*void menu(struct Node* root){  
+void menu(){  
     int opcao;  
     char str[51];
-
+    struct Node* root = NULL;
     while(1){
-        printf("\nEscolha a opcao:\n0-encerrar o programa\n1-inserir\n2-busca\n3-deletar no\n4-printar a arvore\n");
+        printf("\nEscolha a opcao:\n1-encerrar o programa\n2-busca\n3-deletar no\n4-printar a arvore\n");
         scanf("%d",&opcao);
-        if(opcao == 0)return;
+        root = insertNode(root, "apple", "maca");
+            root = insertNode(root, "banana", "banana");
+            root = insertNode(root, "cherry", "cereja");
+            root = insertNode(root, "date", "tamara");
+            root = insertNode(root, "grape", "uva");
+            root = insertNode(root, "fig", "figo");
+            root = insertNode(root, "kiwi", "kiwi");
+            root = insertNode(root, "horse", "cavalo");
+            root = insertNode(root, "duck", "pato");
+            root = insertNode(root, "dog", "cachorro");
+            root = insertNode(root, "cat", "gato");
+        if(opcao == 0){
+            printf("Programa encerrado");
+            return;
+        }
         switch (opcao)
         {
-        case 0:
-            break;
         case 1:
-            printf("\nInsira uma palavra e seu significado\n");
-            // adicionar funcão de leitura
             break;
         case 2:
             str[0] = '\0';
@@ -252,44 +262,18 @@ void printpos(struct Node *root){
             break;
         case 4:
             printf("\nQual formatacao de saida e desejada?\n");
-            printf("1-preorder\n2-inorder\n3-posorder");
+            printf("1-preorder\n2-inorder\n3-posorder\n");
             int m;
             scanf("%d",&m);
             if(m == 1)printpre(root);
-            if(m == 2)printin(root);
-            if(m==3)printpos(root);
-            else printf("\nValor nao disponivel nas opcoes\n");
+            else if(m == 2)printin(root);
+            else if(m==3)printpos(root);
             break;
         }
     }
 }
-*/
-
 // Função principal
 int main() {
-    struct Node* root = NULL;
-
-    root = insertNode(root, "apple", "apple");
-    root = insertNode(root, "banana", "banana");
-    root = insertNode(root, "cherry", "cereja");
-    root = insertNode(root, "date", "tamara");
-    root = insertNode(root, "grape", "uva");
-    root = insertNode(root, "fig", "figo");
-    root = insertNode(root, "kiwi", "kiwi");
-    root = insertNode(root, "horse", "cavalo");
-    root = insertNode(root, "duck", "pato");
-    root = insertNode(root, "dog", "cachorro");
-    root = insertNode(root, "cat", "gato");
-    printf("Digite a palabva a ser traduzida.\n");
-    char key[51];
-    scanf("%s",key);
-    struct Node* foundNode = searchNode(root, key);
-    if (foundNode != NULL)
-        printf("Traducao de: %s - %s\n", foundNode->key, foundNode->traducao);
-    else
-        printf("No com chave %s nao encontrado na arvore.\n", key);
-
-    const char* keyToDelete = "date";
-    root = deleteNode(root, keyToDelete);
+    menu();
     return 0;
 }
