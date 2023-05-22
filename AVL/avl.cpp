@@ -4,9 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <chrono>
 #include <queue>
-#include <vector>
 
 #include "avl.hpp"
 
@@ -194,7 +192,6 @@ struct Node* deleteNode(struct Node* root, Word *w) {
 
     return root;
 }
-
 
 struct Node* read_csv(const string& nome_arquivo) {
 

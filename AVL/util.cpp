@@ -4,6 +4,7 @@
 using namespace std;
 
 void menu() {
+    system("clear");
     char opcao;
     do {
         printf("\n============ Dicionário ============\n");
@@ -40,10 +41,12 @@ void menu() {
 }
 
 void buscar_palavra() {
-    
+    system("clear");
     string palavra;
     cout << "Digite uma palavra (inglês): ";
-    cin >> palavra;
+    getline(cin >> ws, palavra);
+    
+    cout << endl;
 
     struct Node *n = searchNode(root, palavra);
 
@@ -55,18 +58,20 @@ void buscar_palavra() {
 }
 
 void inserir_palavras() {
+    system("clear");
 
     string w, m, e;
 
-    cout << "Digite a palavra:";
-    cin >> w;
+    cout << "Digite a palavra: ";
+    getline(cin >> ws, w);
 
-    cout << "Digite o significado:";
-    cin >> m;
+    cout << "Digite o significado: ";
+    getline(cin >> ws, m);
 
-    cout << "Digite um exemplo de uso desse palavra:";
-    cin >> e;
+    cout << "Digite um exemplo de uso desse palavra: ";
+    getline(cin >> ws, e);
 
+    cout << endl;
 
     Word *nova_palavra = new Word{w, m, e};
     root = insertNode(root, nova_palavra);
@@ -78,16 +83,19 @@ void inserir_palavras() {
     } else {
         cout << "Erro ao inserir a palavra!" << endl;
     }
-
 }
 
 void deletar_palavra() {
+    system("clear");
+
     string palavra;
-    cout << "Digite uma palavra (inglês): ";
+    cout << "Digite uma palavra (inglês, Primeira letra maiuscula): ";
     cin >> palavra;
 
     struct Node *n = searchNode(root, palavra);
 
+    cout << endl;
+    
     if (n != nullptr) {
         print_word(n);
     } else {
