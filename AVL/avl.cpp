@@ -8,11 +8,6 @@
 
 #include "avl.hpp"
 
-/* 
-Peguei uma base de avl e comecei a implementar baseado na ideia do dicionário. 
-Ainda faltam algumas coisas como um menu de operações, e criar a base de dados.
-Usei avl por que funcionou bem, vou tentar com red-black mas achei essa versão daqui boa.
-*/
 
 // Função para obter a altura de um nó
 int getHeight(struct Node* node) {
