@@ -238,6 +238,20 @@ int remove_ArvRB(struct NO **root, char *key) { //Verifica o (NO) para remocao
     }
 }
 
+void free_NO(struct NO* Z) {
+    if(Z == NULL) return;
+
+    free_NO(Z->left);
+    free_NO(Z->right);
+    free(Z);
+    Z = NULL;
+}
+
+void free_BTree(struct NO** root) {
+    if(root == NULL) return;
+    free_NO(*root); //Liberacao dos nos
+}
+
 int main() {
 
     struct NO* Arv = NULL;
@@ -268,7 +282,8 @@ int main() {
         printf("\nPalavra: (%s) nao encontrada na arvore :(\n\n", key);
     }
 
-    fclose(file);   
+    fclose(file);
+    free_BTree(&Arv);
 
     return 0;
 }
