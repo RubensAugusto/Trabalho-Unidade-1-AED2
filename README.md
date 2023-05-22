@@ -15,3 +15,5 @@ Integrantes:
 > 
 > **ÁRVORE AVL(pasta AVL): make run**
 
+## PDF dos Slides
+* [Árvores AVL](https://github.com/RubensAugusto/Trabalho-Unidade-1-AED2/blob/presentation_slides/files/dicionario_avl.pdf)
